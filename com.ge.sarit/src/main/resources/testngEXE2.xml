@@ -1,0 +1,26 @@
+
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+
+<!-- TestNG Documentation: http://testng.org/doc/documentation-main.html -->
+
+<!-- Change "false" to "tests", "methods", "classes" or "instances" for running 
+	in parallel. See more details in the TestNG documentation. -->
+
+<suite name="GE" parallel="false" verbose="2"
+	thread-count="10">
+	<parameter name="url" value="https://material.io/components/data-tables"></parameter>
+	<test name="exe2">
+		<classes>
+			<class
+				name="tests.Exe2">
+				<methods>
+					<include name="matiralDesign"></include>
+				</methods>
+			</class>
+			
+
+		</classes>
+
+	</test>
+</suite>
