@@ -20,8 +20,6 @@ public class DataTablePage {
 	private void init() {
 		iframe = By.xpath("//iframe[@title='data table demo']");
 		rowCheckbox = By.className("mdc-checkbox__native-control");
-
-		// checkboxSelected=By.className("mdc-data-table__row--selected");
 	}
 
 	public boolean clickRowCheckbox() {

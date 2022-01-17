@@ -137,6 +137,10 @@ public class TestDriver {
 		return listOfElements;
 	}
 
+	/**
+	 * switch the content by locator or to default content
+	 * @param iframe - the locator to switch by. if null switch to default
+	 */
 	public boolean switchToContent(By iframe) {
 		if (iframe == null)
 			driver.switchTo().defaultContent();

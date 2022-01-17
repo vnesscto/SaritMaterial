@@ -12,41 +12,44 @@ public class Table {
 	WebElement mTable;
 	private TestDriver mTestDriver;
 	private By configTB;
-	private By rowItem;// =By.xpath("//tr");
+	private By rowItem;
 	private By checkboxSelected;
 	private By checkboxUnselected;
-	//private By checkItem;
 	private By headerCheckbox;
 
 	public Table(TestDriver testDriver) {
 		mTestDriver = testDriver;
 		configTB = By.xpath("//table[@class='mdc-data-table__table']");
 		checkboxSelected = By.xpath(".//*[contains(@class,'mdc-checkbox--selected')]");
-		checkboxUnselected = By.xpath(".//*[contains(@class,'mdc-data-table__cell--checkbox') or contains(@class,'mdc-data-table__header-row-checkbox')]");
+		checkboxUnselected = By.xpath(
+				".//*[contains(@class,'mdc-data-table__cell--checkbox') or contains(@class,'mdc-data-table__header-row-checkbox')]");
 		rowItem = By.xpath(".//tr");
 		headerCheckbox = By.className("mdc-data-table__header-row-checkbox");
 	}
 
-	public WebElement getTable() {
+	private WebElement getTable() {
 		return mTestDriver.fluentWaitWebElement(configTB);
 	}
 
 	public List<WebElement> getRows() {
 		WebElement table = getTable();
 		if (table != null)
-			return mTestDriver.getChildrensOfWebElement(getTable(), rowItem);
+			return mTestDriver.getChildrensOfWebElement(table, rowItem);
 		return null;
 	}
 
 	public List<WebElement> getCheckList() {
 		WebElement table = getTable();
 		if (table != null)
-			return mTestDriver.getChildrensOfWebElement(getTable(), checkboxSelected);
+			return mTestDriver.getChildrensOfWebElement(table, checkboxSelected);
 		return null;
 	}
 
 	public List<WebElement> getUnCheckList() {
-		return mTestDriver.getChildrensOfWebElement(getTable(), checkboxUnselected);
+		WebElement table = getTable();
+		if (table != null)
+			return mTestDriver.getChildrensOfWebElement(table, checkboxUnselected);
+		return null;
 	}
 
 	public boolean checkRow(int numRow) {
@@ -55,19 +58,19 @@ public class Table {
 			return mTestDriver.onClick(headerCheckbox);
 		}
 		return false;
-	}                            
-	
-	public boolean validateStatusRow(int index,boolean status){
-		String xpath="//tr["+index+"]";
-		WebElement rowAsParent=mTestDriver.fluentWaitWebElement(By.xpath(xpath));
-		List<WebElement> checkboxList;
-		if(rowAsParent!=null){
-		if(status)
-			checkboxList=mTestDriver.getChildrensOfWebElement(rowAsParent, checkboxSelected);
-		else
-			checkboxList=mTestDriver.getChildrensOfWebElement(rowAsParent, checkboxUnselected);
-		if(checkboxList!=null&&checkboxList.size()>0)
-			return true;
+	}
+
+	public boolean validateStatusRow(int index, boolean status) {
+		String xpath = "//tr[" + index + "]";
+		WebElement rowAsParent = mTestDriver.fluentWaitWebElement(By.xpath(xpath));
+		List<WebElement> xheckboxByIndex;
+		if (rowAsParent != null) {
+			if (status)
+				xheckboxByIndex = mTestDriver.getChildrensOfWebElement(rowAsParent, checkboxSelected);
+			else
+				xheckboxByIndex = mTestDriver.getChildrensOfWebElement(rowAsParent, checkboxUnselected);
+			if (xheckboxByIndex != null && xheckboxByIndex.size() > 0)
+				return true;
 		}
 		return false;
 	}

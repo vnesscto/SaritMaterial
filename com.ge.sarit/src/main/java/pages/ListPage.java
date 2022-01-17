@@ -54,4 +54,8 @@ public class ListPage {
 	public List<WebElement> getIcontList() {
 		return mTestDriver.fluentWaitWebElements(heartList);
 	}
+	
+	public boolean goToIframe() {
+		return mTestDriver.switchToContent(iframe);
+	}
 }

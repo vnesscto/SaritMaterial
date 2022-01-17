@@ -59,9 +59,12 @@ public class Exe2 {
 	public void listTest(Method method) {
 		
 		//switch to default content
-		mTestDriver.switchToContent(null);
+		assertTrue(mTestDriver.switchToContent(null),"the main menu is not upload");
+		
 		assertTrue(listP.nevigateToListContent(), "list item in menu is not selected");
+		
 		assertTrue(listP.checkIcon(1));
+		
 		assertTrue(listP.validateHeartsNum());
 	}
 }
