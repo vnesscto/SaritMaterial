@@ -15,7 +15,8 @@
 			<class
 				name="tests.Exe2">
 				<methods>
-					<include name="matiralDesign"></include>
+					<include name="dataTableTest"></include>
+					<include name="listTest"></include>
 				</methods>
 			</class>
 			

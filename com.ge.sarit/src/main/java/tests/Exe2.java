@@ -45,17 +45,23 @@ public class Exe2 {
 	}
 
 	@Test
-	public void matiralDesign(Method method) {
-
-		// data table
-		softAssert.assertTrue(dataTableP.setConfiguration(new int[]{0}));
-		//switch to default content
+	public void dataTableTest(Method method) {
+		//set configuration checkbox to true and verify that checboxes had been added to the row in the table
+		softAssert.assertTrue(dataTableP.setConfiguration(true));
 		
-		mTestDriver.getDriver().switchTo().defaultContent();
+		softAssert.assertTrue(dataTableP.checkRows(new int[]{0}));
 		
-		// list-----------------
-		assertTrue(listP.nevigateToListContent(), "list item in menu is not selected");
-		listP.checkIcon(1);
+		softAssert.assertTrue(dataTableP.validateRowIsCheck(null));
+		
 	}
 
+	@Test
+	public void listTest(Method method) {
+		
+		//switch to default content
+		mTestDriver.switchToContent(null);
+		assertTrue(listP.nevigateToListContent(), "list item in menu is not selected");
+		assertTrue(listP.checkIcon(1));
+		assertTrue(listP.validateHeartsNum());
+	}
 }

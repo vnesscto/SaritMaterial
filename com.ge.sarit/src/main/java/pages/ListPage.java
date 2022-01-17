@@ -17,19 +17,18 @@ public class ListPage {
 	private By heartList;
 
 	public ListPage(TestDriver mTestDriver) {
-		super();
 		this.mTestDriver = mTestDriver;
 		init();
 	}
 
+	//Initializes all the locators of the page 
 	private void init() {
 		iframe = By.xpath("//iframe[@title='lists demo']");
 		listItemMenu = By.xpath("//*[@title='Lists' and @tabindex='0']");
 		firstIconRadioBtn = By.xpath("//div//div//label[contains(@for,'leading-1')]");
 		String itemListXpath = "//*[@id='listSINGLE_LINE']/li/span[@class='mdc-list-item__text']";
-		itemList=By.xpath(itemListXpath);
-		heartList=By.xpath(
-				itemListXpath + "/preceding-sibling::span[@class='mdc-list-item__graphic material-icons']");
+		itemList = By.xpath(itemListXpath);
+		heartList = By.xpath(itemListXpath + "/preceding-sibling::span[@class='mdc-list-item__graphic material-icons']");
 	}
 
 	public boolean clickListMenu() {
@@ -42,15 +41,17 @@ public class ListPage {
 		return false;
 	}
 
-	public boolean clickFirstRadioBtn(ConfigType type) {
+	public boolean clickBeforeListTextRadioBtn(ConfigType type) {
 		return mTestDriver.onClick(firstIconRadioBtn);
 	}
-
-	public List<WebElement> getItemList(){
+	
+	//Retrieves the main list components
+	public List<WebElement> getItemList() {
 		return mTestDriver.fluentWaitWebElements(itemList);
 	}
-	
-	public List<WebElement> getHertList(){
+
+	//Retrieves heart icons
+	public List<WebElement> getIcontList() {
 		return mTestDriver.fluentWaitWebElements(heartList);
 	}
 }

@@ -14,6 +14,7 @@ public class ListProcess {
 
 	private TestDriver mTestDriver;
 	private ListPage listPage = null;
+	List<WebElement> itemlistTextList;
 
 	public ListProcess(TestDriver mTestDriver) {
 		this.mTestDriver = mTestDriver;
@@ -26,29 +27,33 @@ public class ListProcess {
 	 * @param num
 	 *            - 1: icon before text, 2: icon after text
 	 */
-	public void checkIcon(int num) {
+	public boolean checkIcon(int num) {
 
-		assertTrue(mTestDriver.switchToIframe(listPage.iframe), "list page is not uploaded");
+		if (mTestDriver.switchToContent(listPage.iframe)) {// , "list page is not
+															// uploaded");
 
-		switch (num) {
-		case 1:// first icon
-				// get number of list item before click
-			List<WebElement> itemlistTextList = listPage.getItemList();
-			assertTrue(itemlistTextList != null);
-			assertTrue(listPage.clickFirstRadioBtn(ConfigType.Icon), "icon is not selected");
-			// get number of list item before click
-			assertTrue(validateHeartsNum(itemlistTextList.size()), "there ara items without heart icon");
-			break;
-		default:
-			break;
+			switch (num) {
+			case 1:// first icon
+					// get number of list item before click
+				itemlistTextList = listPage.getItemList();
+				if (itemlistTextList != null)
+					return listPage.clickBeforeListTextRadioBtn(ConfigType.Icon);// ,
+																					// "icon
+																					// is
+																					// not
+																					// selected");
+			default:
+				break;
+			}
 		}
+		return false;
 	}
 
-	private boolean validateHeartsNum(int itemListSize) {
+	public boolean validateHeartsNum() {
 		boolean result = false;
-		List<WebElement> heartIconList = listPage.getHertList();
+		List<WebElement> heartIconList = listPage.getIcontList();
 		if (heartIconList != null) {
-			result = itemListSize == heartIconList.size() ? true : false;
+			result = itemlistTextList.size() == heartIconList.size();
 			for (WebElement heart : heartIconList) {
 				if (!heart.getText().equals("favorite"))
 					return false;
@@ -56,8 +61,8 @@ public class ListProcess {
 		}
 		return result;
 	}
-	
-	public boolean nevigateToListContent(){
+
+	public boolean nevigateToListContent() {
 		return listPage.clickListMenu();
 	}
 }

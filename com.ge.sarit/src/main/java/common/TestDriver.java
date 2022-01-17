@@ -22,8 +22,8 @@ public class TestDriver {
 
 	private WebDriver driver;
 	private JavascriptExecutor js;
-	private static final int TIMEOUT_TO_FIND_ELEMENT=5;
-	private static final int TIMEOUT_ELEMENT_TO_BE_CLICKABLE=5;
+	private static final int TIMEOUT_TO_FIND_ELEMENT = 5;
+	private static final int TIMEOUT_ELEMENT_TO_BE_CLICKABLE = 5;
 
 	public WebDriver getDriver() {
 		return driver;
@@ -63,19 +63,20 @@ public class TestDriver {
 		return true;
 	}
 
-	public WebElement fluentWaitWebElement( final By locator) {
-		
+	public WebElement fluentWaitWebElement(final By locator) {
+
 		WebElement element;
 		try {
-			
-			Wait<WebDriver> wait = new FluentWait<WebDriver>(driver).withTimeout(Duration.ofSeconds(TIMEOUT_TO_FIND_ELEMENT))
-					.pollingEvery(Duration.ofSeconds(1)).ignoring(org.openqa.selenium.NoSuchElementException.class);
+
+			Wait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+					.withTimeout(Duration.ofSeconds(TIMEOUT_TO_FIND_ELEMENT)).pollingEvery(Duration.ofSeconds(1))
+					.ignoring(org.openqa.selenium.NoSuchElementException.class);
 			element = wait.until(new Function<WebDriver, WebElement>() {
 				public WebElement apply(WebDriver driver) {
 					return driver.findElement(locator);
 				}
 			});
-			if (!element.isDisplayed()){
+			if (!element.isDisplayed()) {
 				js.executeScript("arguments[0].scrollIntoView();", element);
 				Thread.sleep(2000);
 			}
@@ -85,7 +86,7 @@ public class TestDriver {
 		}
 		return element;
 	}
-	
+
 	public List<WebElement> fluentWaitWebElements(final By locator) {
 
 		List<WebElement> elements;
@@ -99,7 +100,7 @@ public class TestDriver {
 					return driver.findElements(locator);
 				}
 			});
-			if (!elements.get(0).isDisplayed()){
+			if (!elements.get(0).isDisplayed()) {
 				js.executeScript("arguments[0].scrollIntoView();", elements.get(0));
 				Thread.sleep(2000);
 			}
@@ -117,7 +118,7 @@ public class TestDriver {
 			return false;
 		}
 		// click and wait until element be clickable
-		WebDriverWait wait = new WebDriverWait(driver,Duration.ofSeconds(TIMEOUT_ELEMENT_TO_BE_CLICKABLE));
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(TIMEOUT_ELEMENT_TO_BE_CLICKABLE));
 		try {
 			wait.until(ExpectedConditions.elementToBeClickable(webElement));// presenceOfElementLocated(by));
 			webElement.click();
@@ -127,7 +128,7 @@ public class TestDriver {
 			return false;
 		}
 	}
-	
+
 	public List<WebElement> getChildrensOfWebElement(WebElement parentElement, By byForChild) {
 		List<WebElement> listOfElements = null;
 		// if the elements not found in 10 seconds return null
@@ -135,14 +136,17 @@ public class TestDriver {
 		listOfElements = parentElement.findElements(byForChild);
 		return listOfElements;
 	}
-	
-	public boolean switchToIframe(By iframe) {
-		WebElement iFram;
-		iFram = fluentWaitWebElement(iframe);
-		if (iFram != null) {
-			driver.switchTo().frame(iFram);// form
-			return true;
+
+	public boolean switchToContent(By iframe) {
+		if (iframe == null)
+			driver.switchTo().defaultContent();
+		else {
+			WebElement iFramElement;
+			iFramElement = fluentWaitWebElement(iframe);
+			if (iFramElement == null)
+				return false;
+			driver.switchTo().frame(iFramElement);
 		}
-		return false;
-}
+		return true;
+	}
 }
